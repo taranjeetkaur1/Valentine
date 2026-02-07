@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💖</title>
+<style>
+body {
+  text-align: center;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  margin-top: 100px;
+  overflow: hidden;
+  background: #ffe6f0;
+}
+
+h1 {
+  font-size: 36px;
+  color: #ff3366;
+  text-shadow: 1px 1px 2px #fff;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 22px;
+  margin: 20px;
+  cursor: pointer;
+  border-radius: 15px;
+  border: none;
+  box-shadow: 2px 2px 5px #aaa;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+.yes-button {
+  background-color: #ff4d6d;
+  color: white;
+}
+
+.no-button {
+  background-color: #ccc;
+  position: absolute;
+}
+
+/* Floating hearts style */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  width: 25px;
+  height: 25px;
+  background-color: #ff3366;
+  transform: rotate(-45deg);
+  animation: floatUp 4s linear forwards;
+  pointer-events: none;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: #ff3366;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -12px;
+  left: 0;
+}
+
+.heart::after {
+  top: 0;
+  left: 12px;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(-45deg) scale(1); opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(-45deg) scale(1.5); opacity: 0; }
+}
+
+p {
+  font-size: 20px;
+  color: #cc0066;
+  margin: 20px;
+}
+</style>
+</head>
+<body>
+
+<div id="main-content">
+  <h1>Will you be my Valentine? 💕</h1>
+  <button class="yes-button">Yes 💘</button>
+  <button class="no-button">No 🙈</button>
+</div>
+
+<script>
+window.onload = function() {
+  const yesButton = document.querySelector('.yes-button');
+  const noButton = document.querySelector('.no-button');
+  const main = document.getElementById('main-content');
+
+  let messageIndex = 0;
+  const messages = [
+    "Are you sure? 🥺",
+    "Think again 💕",
+    "Pleaseeee 😭",
+    "Don’t break my heart 💔",
+    "Last chance 😳"
+  ];
+
+  // Move NO button & change text
+  function handleNoClick() {
+    noButton.textContent = messages[messageIndex];
+    messageIndex = (messageIndex + 1) % messages.length;
+
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 100);
+    noButton.style.left = `${x}px`;
+    noButton.style.top = `${y}px`;
+
+    const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+    yesButton.style.fontSize = `${currentSize * 1.2}px`;
+  }
+
+  // Create floating cartoon heart
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+    heart.style.backgroundColor = ['#ff3366','#ff6699','#ff99cc','#ff1a75'][Math.floor(Math.random()*4)];
+    heart.style.width = heart.style.height = (Math.random()*20+20) + "px";
+    heart.style.transform = 'rotate(-45deg)';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+  }
+
+  setInterval(createHeart, 300);
+
+  // YES click effect
+  function handleYesClick() {
+    // extra hearts
+    for(let i=0;i<25;i++) setTimeout(createHeart, i*100);
+
+    // longer cute Valentine message
+    setTimeout(() => {
+      main.innerHTML = `
+        <h1>Yayyy 💖🥰</h1>
+        <h2>You are my Valentine ❤️</h2>
+        <p>Every day with you is magical, every smile of yours brightens my heart. I love you more than words can say, and I promise to fill your life with love, laughter, and happiness forever! 💕🌸</p>
+      `;
+    }, 500);
+  }
+
+  yesButton.onclick = handleYesClick;
+  noButton.onclick = handleNoClick;
+}
+</script>
+
+</body>
+</html>
